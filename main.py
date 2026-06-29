@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -52,10 +52,33 @@ async def generate(
 
 @app.post("/voice")
 async def voice(script: str = Form(...)):
-    filename = generate_voice(script)
+    try:
+        print("=" * 50)
+        print("VOICE ROUTE CALLED")
+        print("Script Length:", len(script))
 
-    return FileResponse(
-        path=f"static/audio/{filename}",
-        media_type="audio/wav",
-        filename="voice.wav"
-    )
+        filename = generate_voice(script)
+
+        print("Generated File:", filename)
+
+        file_path = f"static/audio/{filename}"
+
+        print("File Path:", file_path)
+
+        return FileResponse(
+            path=file_path,
+            media_type="audio/wav",
+            filename="voice.wav"
+        )
+
+    except Exception as e:
+        import traceback
+
+        print("=" * 50)
+        print("VOICE ERROR")
+        traceback.print_exc()
+
+        return PlainTextResponse(
+            f"ERROR:\n\n{str(e)}",
+            status_code=500
+        )
