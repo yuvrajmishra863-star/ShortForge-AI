@@ -22,15 +22,29 @@ async def home(request: Request):
 
 
 @app.post("/generate", response_class=HTMLResponse)
-async def generate(request: Request, prompt: str = Form(...)):
+async def generate(
+    request: Request,
+    prompt: str = Form(...),
+    style: str = Form(...),
+    duration: str = Form(...),
+    language: str = Form(...)
+):
 
-    script = generate_script(prompt)
+    script = generate_script(
+        prompt,
+        style,
+        duration,
+        language
+    )
 
     return templates.TemplateResponse(
         request=request,
         name="result.html",
         context={
             "prompt": prompt,
+            "style": style,
+            "duration": duration,
+            "language": language,
             "script": script
         }
     )

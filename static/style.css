@@ -62,4 +62,18 @@ pre{
 #loading{
     margin-top:15px;
     font-weight:bold;
+}select{
+
+    width:80%;
+
+    padding:15px;
+
+    font-size:18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    margin-top:10px;
+
 }

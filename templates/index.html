@@ -1,61 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>ShortForge AI</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 ShortForge AI</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>🎬 ShortForge AI</h1>
+    <div class="card">
 
-    <p>Create YouTube Shorts using AI</p>
+        <h1>🚀 ShortForge AI</h1>
 
-    <form action="/generate" method="post">
+        <p>Create viral YouTube Shorts using AI</p>
 
-        <input
-            id="prompt"
-            type="text"
-            name="prompt"
-            placeholder="Enter your topic..."
-            maxlength="500"
-            required>
+        <form action="/generate" method="post">
 
-        <p id="counter">
-            Characters: 0 / 500
-        </p>
+            <label>Topic</label>
 
-        <button id="generateBtn" type="submit">
-            ✨ Generate Script
-        </button>
+            <input
+                id="prompt"
+                type="text"
+                name="prompt"
+                placeholder="e.g. 5 Facts About Space"
+                maxlength="500"
+                required>
 
-        <p id="loading" style="display:none; color:#60a5fa;">
-            🤖 Generating your AI script... Please wait.
-        </p>
+            <p id="counter">Characters: 0 / 500</p>
 
-    </form>
+            <div class="grid">
+
+                <div>
+
+                    <label>Writing Style</label>
+
+                    <select name="style">
+
+                        <option value="educational">🎓 Educational</option>
+
+                        <option value="funny">😂 Funny</option>
+
+                        <option value="storytelling">📖 Storytelling</option>
+
+                        <option value="professional">💼 Professional</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>Duration</label>
+
+                    <select name="duration">
+
+                        <option>15 sec</option>
+
+                        <option selected>30 sec</option>
+
+                        <option>60 sec</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>Language</label>
+
+                    <select name="language">
+
+                        <option>English</option>
+
+                        <option>Hindi</option>
+
+                        <option>Hinglish</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button id="generateBtn" type="submit">
+
+                ✨ Generate AI Script
+
+            </button>
+
+            <p id="loading" style="display:none">
+
+                🤖 AI is generating your script...
+
+            </p>
+
+        </form>
+
+    </div>
 
 </div>
 
-<script>
-const input = document.getElementById("prompt");
-const counter = document.getElementById("counter");
-const form = document.querySelector("form");
-const loading = document.getElementById("loading");
-const button = document.getElementById("generateBtn");
-
-input.addEventListener("input", function () {
-    counter.innerText = `Characters: ${input.value.length} / 500`;
-});
-
-form.addEventListener("submit", function () {
-    loading.style.display = "block";
-    button.disabled = true;
-    button.innerText = "⏳ Generating...";
-});
-</script>
+<script src="/static/js/app.js"></script>
 
 </body>
 </html>

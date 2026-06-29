@@ -3,9 +3,9 @@
 
 <head>
 
-<title>Generated Script</title>
+    <title>Generated Script</title>
 
-<link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
 </head>
 
@@ -13,20 +13,24 @@
 
 <div class="container">
 
-<h1>🎬 AI Script</h1>
+<div class="card">
 
-<h3>Topic</h3>
+<h1>🚀 Generated Script</h1>
 
-<p>{{ prompt }}</p>
+<p><strong>Topic:</strong> {{ prompt }}</p>
 
-<h3>Generated Script</h3>
+<p><strong>Style:</strong> {{ style }}</p>
+
+<p><strong>Duration:</strong> {{ duration }}</p>
+
+<p><strong>Language:</strong> {{ language }}</p>
 
 <pre id="script">{{ script }}</pre>
 
-<br>
-
 <button id="copyBtn">
-    📋 Copy Script
+
+📋 Copy Script
+
 </button>
 
 <p id="copied"></p>
@@ -36,18 +40,25 @@
 <a href="/">⬅ Generate Another</a>
 
 </div>
+
+</div>
+
 <script>
-const copyBtn = document.getElementById("copyBtn");
-const script = document.getElementById("script");
-const copied = document.getElementById("copied");
 
-copyBtn.addEventListener("click", async function () {
+const copyBtn=document.getElementById("copyBtn");
 
-    await navigator.clipboard.writeText(script.innerText);
+const script=document.getElementById("script");
 
-    copied.innerText = "✅ Script copied successfully!";
+const copied=document.getElementById("copied");
+
+copyBtn.addEventListener("click",async()=>{
+
+await navigator.clipboard.writeText(script.innerText);
+
+copied.innerHTML="✅ Script copied!";
 
 });
+
 </script>
 
 </body>
