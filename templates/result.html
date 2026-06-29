@@ -21,13 +21,34 @@
 
 <h3>Generated Script</h3>
 
-<pre>{{ script }}</pre>
+<pre id="script">{{ script }}</pre>
+
+<br>
+
+<button id="copyBtn">
+    📋 Copy Script
+</button>
+
+<p id="copied"></p>
 
 <br>
 
 <a href="/">⬅ Generate Another</a>
 
 </div>
+<script>
+const copyBtn = document.getElementById("copyBtn");
+const script = document.getElementById("script");
+const copied = document.getElementById("copied");
+
+copyBtn.addEventListener("click", async function () {
+
+    await navigator.clipboard.writeText(script.innerText);
+
+    copied.innerText = "✅ Script copied successfully!";
+
+});
+</script>
 
 </body>
 
