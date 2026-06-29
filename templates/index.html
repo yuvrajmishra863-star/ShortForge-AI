@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShortForge AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎬 ShortForge AI</h1>
+
+    <p>Create YouTube Shorts using AI</p>
+
+    <form action="/generate" method="post">
+
+        <input
+            id="prompt"
+            type="text"
+            name="prompt"
+            placeholder="Enter your topic..."
+            maxlength="500"
+            required>
+
+        <p id="counter">
+            Characters: 0 / 500
+        </p>
+
+        <button id="generateBtn" type="submit">
+            ✨ Generate Script
+        </button>
+
+        <p id="loading" style="display:none; color:#60a5fa;">
+            🤖 Generating your AI script... Please wait.
+        </p>
+
+    </form>
+
+</div>
+
+<script>
+const input = document.getElementById("prompt");
+const counter = document.getElementById("counter");
+const form = document.querySelector("form");
+const loading = document.getElementById("loading");
+const button = document.getElementById("generateBtn");
+
+input.addEventListener("input", function () {
+    counter.innerText = `Characters: ${input.value.length} / 500`;
+});
+
+form.addEventListener("submit", function () {
+    loading.style.display = "block";
+    button.disabled = true;
+    button.innerText = "⏳ Generating...";
+});
+</script>
+
+</body>
+</html>
