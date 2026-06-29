@@ -1,66 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
-    <title>Generated Script</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Generated Script</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
 
-<h1>🚀 Generated Script</h1>
+        <h1>🚀 Generated Script</h1>
 
-<p><strong>Topic:</strong> {{ prompt }}</p>
+        <p><strong>Topic:</strong> {{ prompt }}</p>
+        <p><strong>Style:</strong> {{ style }}</p>
+        <p><strong>Duration:</strong> {{ duration }}</p>
+        <p><strong>Language:</strong> {{ language }}</p>
 
-<p><strong>Style:</strong> {{ style }}</p>
+        <hr>
 
-<p><strong>Duration:</strong> {{ duration }}</p>
+        <h3>Generated Script</h3>
 
-<p><strong>Language:</strong> {{ language }}</p>
+        <pre id="script">{{ script }}</pre>
 
-<pre id="script">{{ script }}</pre>
+        <br>
 
-<button id="copyBtn">
+        <button id="copyBtn">
+            📋 Copy Script
+        </button>
 
-📋 Copy Script
+        <span id="copied"></span>
 
-</button>
+        <br><br>
 
-<p id="copied"></p>
+        <form action="/voice" method="post">
 
-<br>
+            <textarea
+                name="script"
+                style="display:none;">{{ script }}</textarea>
 
-<a href="/">⬅ Generate Another</a>
+            <button type="submit">
+                🎙 Generate Voice
+            </button>
 
-</div>
+        </form>
+
+        <br>
+
+        <a href="/">⬅ Generate Another</a>
+
+    </div>
 
 </div>
 
 <script>
 
-const copyBtn=document.getElementById("copyBtn");
+const copyBtn = document.getElementById("copyBtn");
+const script = document.getElementById("script");
+const copied = document.getElementById("copied");
 
-const script=document.getElementById("script");
+copyBtn.addEventListener("click", async () => {
 
-const copied=document.getElementById("copied");
+    await navigator.clipboard.writeText(script.innerText);
 
-copyBtn.addEventListener("click",async()=>{
-
-await navigator.clipboard.writeText(script.innerText);
-
-copied.innerHTML="✅ Script copied!";
+    copied.innerHTML = " ✅ Copied!";
 
 });
 
 </script>
 
 </body>
-
 </html>

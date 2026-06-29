@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.ai import generate_script
+from app.tts import generate_voice
 
 app = FastAPI()
 
@@ -29,7 +30,6 @@ async def generate(
     duration: str = Form(...),
     language: str = Form(...)
 ):
-
     script = generate_script(
         prompt,
         style,
@@ -47,4 +47,15 @@ async def generate(
             "language": language,
             "script": script
         }
+    )
+
+
+@app.post("/voice")
+async def voice(script: str = Form(...)):
+    filename = generate_voice(script)
+
+    return FileResponse(
+        path=f"static/audio/{filename}",
+        media_type="audio/wav",
+        filename="voice.wav"
     )
