@@ -22,9 +22,9 @@ app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 templates = Jinja2Templates(directory="templates")
 
 
-# -------------------------------
-# Home
-# -------------------------------
+# =====================================================
+# HOME
+# =====================================================
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -32,17 +32,17 @@ async def home(request: Request):
     projects = get_projects()
 
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
+        request=request,
+        name="index.html",
+        context={
             "projects": projects
         }
     )
 
 
-# -------------------------------
-# Dashboard
-# -------------------------------
+# =====================================================
+# DASHBOARD
+# =====================================================
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
@@ -50,17 +50,17 @@ async def dashboard(request: Request):
     projects = get_projects()
 
     return templates.TemplateResponse(
-        "dashboard.html",
-        {
-            "request": request,
+        request=request,
+        name="dashboard.html",
+        context={
             "projects": projects
         }
     )
 
 
-# -------------------------------
-# Generate Video
-# -------------------------------
+# =====================================================
+# GENERATE
+# =====================================================
 
 @app.post("/generate", response_class=HTMLResponse)
 async def generate(
@@ -83,31 +83,23 @@ async def generate(
         video_url = "/" + result["video"].replace("\\", "/")
         audio_url = "/" + result["audio"].replace("\\", "/")
 
-        image_urls = []
-
-        for image in result["images"]:
-
-            image_urls.append(
-                "/" + image.replace("\\", "/")
-            )
+        image_urls = [
+            "/" + image.replace("\\", "/")
+            for image in result["images"]
+        ]
 
         return templates.TemplateResponse(
-            "result.html",
-            {
-                "request": request,
-
+            request=request,
+            name="result.html",
+            context={
                 "prompt": prompt,
                 "style": style,
                 "duration": duration,
                 "language": language,
-
                 "script": result["script"],
-
                 "video_url": video_url,
                 "audio_url": audio_url,
-
                 "images": image_urls,
-
                 "project": result["project"]
             }
         )
@@ -115,7 +107,6 @@ async def generate(
     except Exception as e:
 
         import traceback
-
         traceback.print_exc()
 
         return PlainTextResponse(
