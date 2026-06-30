@@ -2,61 +2,163 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}ShortForge AI{% endblock %}</title>
 
+    <!-- Tailwind CSS -->
     <link rel="stylesheet" href="/static/css/output.css">
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+
         body{
-            background:#0f172a;
-            color:white;
+
             font-family:Inter,sans-serif;
+
+            background:#020617;
+
+            color:white;
+
+            overflow-x:hidden;
+
         }
 
         .glass{
+
             background:rgba(255,255,255,.05);
+
             backdrop-filter:blur(18px);
+
             border:1px solid rgba(255,255,255,.08);
+
         }
 
         .gradient{
-            background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+            background:linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
         }
+
+        .gradient:hover{
+
+            filter:brightness(1.1);
+
+            transition:.3s;
+
+        }
+
+        .logo{
+
+            background:linear-gradient(
+                135deg,
+                #60a5fa,
+                #a855f7
+            );
+
+            -webkit-background-clip:text;
+
+            -webkit-text-fill-color:transparent;
+
+        }
+
+        a{
+
+            transition:.25s;
+
+        }
+
+        ::selection{
+
+            background:#2563eb;
+
+            color:white;
+
+        }
+
+        ::-webkit-scrollbar{
+
+            width:8px;
+
+        }
+
+        ::-webkit-scrollbar-thumb{
+
+            background:#334155;
+
+            border-radius:100px;
+
+        }
+
     </style>
 
 </head>
 
-<body class="min-h-screen">
+<body>
 
-<nav class="glass p-5 flex justify-between items-center">
+<!-- Navbar -->
 
-    <h1 class="text-2xl font-bold">
-        🚀 ShortForge AI
-    </h1>
+<nav class="glass sticky top-0 z-50">
 
-    <div class="space-x-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-8 py-5">
 
-        <a href="/" class="hover:text-blue-400">
-            Home
+        <a href="/" class="text-3xl font-extrabold logo">
+
+            🚀 ShortForge AI
+
         </a>
 
-        <a href="#" class="hover:text-blue-400">
-            Projects
-        </a>
+        <div class="hidden md:flex gap-8 text-gray-300">
 
-        <a href="#" class="hover:text-blue-400">
-            About
-        </a>
+            <a href="/" class="hover:text-white">
+
+                Home
+
+            </a>
+
+            <a href="/dashboard" class="hover:text-white">
+
+                Dashboard
+
+            </a>
+
+            <a href="/" class="hover:text-white">
+
+                Generate
+
+            </a>
+
+            <a href="#" class="hover:text-white">
+
+                About
+
+            </a>
+
+        </div>
 
     </div>
 
 </nav>
 
+<!-- Main Content -->
 
-<main class="container mx-auto p-10">
+<main class="max-w-7xl mx-auto px-6 py-10">
 
     {% block content %}
 
@@ -64,12 +166,51 @@
 
 </main>
 
+<!-- Footer -->
 
-<footer class="text-center text-gray-400 p-6">
+<footer class="border-t border-slate-800 mt-20">
 
-    Built with  using FastAPI + Ollama + Piper + MoviePy
+    <div class="max-w-7xl mx-auto py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+
+        <div>
+
+            <h2 class="text-2xl font-bold">
+
+                🚀 ShortForge AI
+
+            </h2>
+
+            <p class="text-gray-400 mt-2">
+
+                AI Video Generator powered by Ollama, Piper, Pollinations & MoviePy.
+
+            </p>
+
+        </div>
+
+        <div class="text-gray-500 text-center">
+
+            <p>
+
+                Version 1.0 Beta
+
+            </p>
+
+            <p class="mt-1">
+
+                Built with ❤️ using FastAPI
+
+            </p>
+
+        </div>
+
+    </div>
 
 </footer>
+
+<!-- App JS -->
+
+<script src="/static/js/app.js"></script>
 
 </body>
 

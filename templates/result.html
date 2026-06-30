@@ -1,78 +1,303 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 Generated Script</title>
+{% block title %}Your AI Video{% endblock %}
 
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% block content %}
 
-<body>
+<div class="max-w-7xl mx-auto">
 
-<div class="container">
+    <!-- Header -->
 
-    <div class="card">
+    <div class="flex justify-between items-center mb-10">
 
-        <h1>🚀 Generated Script</h1>
+        <div>
 
-        <p><strong>Topic:</strong> {{ prompt }}</p>
-        <p><strong>Style:</strong> {{ style }}</p>
-        <p><strong>Duration:</strong> {{ duration }}</p>
-        <p><strong>Language:</strong> {{ language }}</p>
+            <h1 class="text-5xl font-extrabold">
 
-        <hr>
+                🎬 Your AI Video
 
-        <h3>Generated Script</h3>
+            </h1>
 
-        <pre id="script">{{ script }}</pre>
+            <p class="text-gray-400 mt-3">
 
-        <br>
+                Successfully generated using ShortForge AI
 
-        <button id="copyBtn">
-            📋 Copy Script
-        </button>
+            </p>
 
-        <span id="copied"></span>
+        </div>
 
-        <br><br>
+        <a
+            href="/"
+            class="gradient px-6 py-3 rounded-xl font-semibold">
 
-        <form action="/voice" method="post">
+            🚀 Generate Another
 
-            <textarea
-                name="script"
-                style="display:none;">{{ script }}</textarea>
+        </a>
 
-            <button type="submit">
-                🎙 Generate Voice
-            </button>
+    </div>
 
-        </form>
 
-        <br>
 
-        <a href="/">⬅ Generate Another</a>
+    <div class="grid lg:grid-cols-3 gap-8">
+
+        <!-- LEFT SIDE -->
+
+        <div class="lg:col-span-2 space-y-8">
+
+            <!-- VIDEO -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <h2 class="text-2xl font-bold mb-5">
+
+                    🎥 Video Preview
+
+                </h2>
+
+                <video
+                    controls
+                    autoplay
+                    class="w-full rounded-2xl shadow-2xl">
+
+                    <source
+                        src="{{ video_url }}"
+                        type="video/mp4">
+
+                </video>
+
+                <div class="flex gap-4 mt-6">
+
+                    <a
+                        href="{{ video_url }}"
+                        download
+                        class="gradient px-6 py-3 rounded-xl">
+
+                        ⬇ Download Video
+
+                    </a>
+
+                    <a
+                        href="{{ audio_url }}"
+                        download
+                        class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl">
+
+                        🎙 Download Voice
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCRIPT -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <div class="flex justify-between items-center">
+
+                    <h2 class="text-2xl font-bold">
+
+                        📜 AI Script
+
+                    </h2>
+
+                    <button
+                        onclick="copyScript()"
+                        class="bg-purple-600 px-5 py-2 rounded-xl">
+
+                        📋 Copy
+
+                    </button>
+
+                </div>
+
+                <pre
+                    id="script"
+                    class="mt-6 whitespace-pre-wrap leading-8 text-gray-200">{{ script }}</pre>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="space-y-8">
+
+            <!-- DETAILS -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <h2 class="text-2xl font-bold mb-6">
+
+                    📊 Project Details
+
+                </h2>
+
+                <div class="space-y-5">
+
+                    <div>
+
+                        <p class="text-gray-400">
+
+                            Topic
+
+                        </p>
+
+                        <p class="font-semibold">
+
+                            {{ prompt }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-gray-400">
+
+                            Style
+
+                        </p>
+
+                        <p>
+
+                            {{ style }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-gray-400">
+
+                            Duration
+
+                        </p>
+
+                        <p>
+
+                            {{ duration }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-gray-400">
+
+                            Language
+
+                        </p>
+
+                        <p>
+
+                            {{ language }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- IMAGE GALLERY -->
+
+            <div class="glass rounded-3xl p-6">
+
+                <h2 class="text-2xl font-bold mb-6">
+
+                    🖼 Scene Images
+
+                </h2>
+
+                <div class="grid grid-cols-2 gap-4">
+
+                    {% for image in images %}
+
+                    <a
+                        href="{{ image }}"
+                        target="_blank">
+
+                        <img
+                            src="{{ image }}"
+                            class="rounded-xl hover:scale-105 transition duration-300 shadow-xl">
+
+                    </a>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FEATURES -->
+
+    <div class="grid md:grid-cols-4 gap-6 mt-14">
+
+        <div class="glass rounded-2xl p-6 text-center">
+
+            🤖
+
+            <h3 class="font-bold mt-3">
+
+                AI Script
+
+            </h3>
+
+        </div>
+
+        <div class="glass rounded-2xl p-6 text-center">
+
+            🎙
+
+            <h3 class="font-bold mt-3">
+
+                AI Voice
+
+            </h3>
+
+        </div>
+
+        <div class="glass rounded-2xl p-6 text-center">
+
+            🖼
+
+            <h3 class="font-bold mt-3">
+
+                AI Images
+
+            </h3>
+
+        </div>
+
+        <div class="glass rounded-2xl p-6 text-center">
+
+            🎬
+
+            <h3 class="font-bold mt-3">
+
+                AI Video
+
+            </h3>
+
+        </div>
 
     </div>
 
 </div>
 
-<script>
-
-const copyBtn = document.getElementById("copyBtn");
-const script = document.getElementById("script");
-const copied = document.getElementById("copied");
-
-copyBtn.addEventListener("click", async () => {
-
-    await navigator.clipboard.writeText(script.innerText);
-
-    copied.innerHTML = " ✅ Copied!";
-
-});
-
-</script>
-
-</body>
-</html>
+{% endblock %}

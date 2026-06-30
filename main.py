@@ -1,34 +1,66 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, FileResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.ai import generate_script
-from app.tts import generate_voice
-
-# Database
 from app.database.db import Base, engine
-from app.models.project import Project
+from app.services.pipeline_service import generate_complete_video
+from app.services.project_service import get_projects
 
-app = FastAPI()
+app = FastAPI(
+    title="ShortForge AI",
+    version="1.0"
+)
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-# Static Files
+# Static folders
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
 templates = Jinja2Templates(directory="templates")
 
 
+# -------------------------------
+# Home
+# -------------------------------
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
+
+    projects = get_projects()
+
     return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={}
+        "index.html",
+        {
+            "request": request,
+            "projects": projects
+        }
     )
 
+
+# -------------------------------
+# Dashboard
+# -------------------------------
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request):
+
+    projects = get_projects()
+
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {
+            "request": request,
+            "projects": projects
+        }
+    )
+
+
+# -------------------------------
+# Generate Video
+# -------------------------------
 
 @app.post("/generate", response_class=HTMLResponse)
 async def generate(
@@ -38,43 +70,55 @@ async def generate(
     duration: str = Form(...),
     language: str = Form(...)
 ):
-    script = generate_script(
-        prompt,
-        style,
-        duration,
-        language
-    )
 
-    return templates.TemplateResponse(
-        request=request,
-        name="result.html",
-        context={
-            "prompt": prompt,
-            "style": style,
-            "duration": duration,
-            "language": language,
-            "script": script
-        }
-    )
-
-
-@app.post("/voice")
-async def voice(script: str = Form(...)):
     try:
-        filename = generate_voice(script)
 
-        return FileResponse(
-            path=f"static/audio/{filename}",
-            media_type="audio/wav",
-            filename="voice.wav"
+        result = generate_complete_video(
+            prompt=prompt,
+            style=style,
+            duration=duration,
+            language=language
+        )
+
+        video_url = "/" + result["video"].replace("\\", "/")
+        audio_url = "/" + result["audio"].replace("\\", "/")
+
+        image_urls = []
+
+        for image in result["images"]:
+
+            image_urls.append(
+                "/" + image.replace("\\", "/")
+            )
+
+        return templates.TemplateResponse(
+            "result.html",
+            {
+                "request": request,
+
+                "prompt": prompt,
+                "style": style,
+                "duration": duration,
+                "language": language,
+
+                "script": result["script"],
+
+                "video_url": video_url,
+                "audio_url": audio_url,
+
+                "images": image_urls,
+
+                "project": result["project"]
+            }
         )
 
     except Exception as e:
+
         import traceback
 
         traceback.print_exc()
 
         return PlainTextResponse(
-            f"ERROR:\n\n{str(e)}",
+            str(e),
             status_code=500
         )
