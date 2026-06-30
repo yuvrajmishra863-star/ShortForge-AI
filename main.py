@@ -6,8 +6,16 @@ from fastapi.templating import Jinja2Templates
 from app.ai import generate_script
 from app.tts import generate_voice
 
+# Database
+from app.database.db import Base, engine
+from app.models.project import Project
+
 app = FastAPI()
 
+# Create database tables
+Base.metadata.create_all(bind=engine)
+
+# Static Files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
@@ -53,20 +61,10 @@ async def generate(
 @app.post("/voice")
 async def voice(script: str = Form(...)):
     try:
-        print("=" * 50)
-        print("VOICE ROUTE CALLED")
-        print("Script Length:", len(script))
-
         filename = generate_voice(script)
 
-        print("Generated File:", filename)
-
-        file_path = f"static/audio/{filename}"
-
-        print("File Path:", file_path)
-
         return FileResponse(
-            path=file_path,
+            path=f"static/audio/{filename}",
             media_type="audio/wav",
             filename="voice.wav"
         )
@@ -74,8 +72,6 @@ async def voice(script: str = Form(...)):
     except Exception as e:
         import traceback
 
-        print("=" * 50)
-        print("VOICE ERROR")
         traceback.print_exc()
 
         return PlainTextResponse(
