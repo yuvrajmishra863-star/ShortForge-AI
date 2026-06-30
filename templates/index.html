@@ -1,53 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 ShortForge AI</title>
+{% block title %}ShortForge AI{% endblock %}
 
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% block content %}
 
-<body>
+<div class="max-w-4xl mx-auto">
 
-<div class="container">
+    <div class="text-center mb-12">
 
-    <div class="card">
+        <h1 class="text-6xl font-extrabold mb-6">
+            🚀 ShortForge AI
+        </h1>
 
-        <h1>🚀 ShortForge AI</h1>
+        <p class="text-xl text-gray-300">
+            Create AI-powered YouTube Shorts, Instagram Reels and TikTok videos in minutes.
+        </p>
 
-        <p>Create viral YouTube Shorts using AI</p>
+    </div>
 
-        <form action="/generate" method="post">
+    <div class="glass rounded-3xl p-10 shadow-2xl">
 
-            <label>Topic</label>
+        <form action="/generate" method="post" class="space-y-6">
 
-            <input
-                id="prompt"
-                type="text"
-                name="prompt"
-                placeholder="e.g. 5 Facts About Space"
-                maxlength="500"
-                required>
+            <div>
 
-            <p id="counter">Characters: 0 / 500</p>
+                <label class="block mb-2 text-lg font-semibold">
+                    Video Topic
+                </label>
 
-            <div class="grid">
+                <textarea
+                    name="prompt"
+                    rows="5"
+                    required
+                    placeholder="Example: The History of the Taj Mahal..."
+                    class="w-full rounded-xl bg-slate-900 border border-slate-700 p-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
 
                 <div>
 
-                    <label>Writing Style</label>
+                    <label class="block mb-2 font-semibold">
+                        Style
+                    </label>
 
-                    <select name="style">
+                    <select
+                        name="style"
+                        class="w-full rounded-xl bg-slate-900 border border-slate-700 p-3">
 
-                        <option value="educational">🎓 Educational</option>
-
-                        <option value="funny">😂 Funny</option>
-
-                        <option value="storytelling">📖 Storytelling</option>
-
-                        <option value="professional">💼 Professional</option>
+                        <option>Storytelling</option>
+                        <option>Educational</option>
+                        <option>Motivational</option>
+                        <option>Funny</option>
+                        <option>Documentary</option>
 
                     </select>
 
@@ -55,15 +61,17 @@
 
                 <div>
 
-                    <label>Duration</label>
+                    <label class="block mb-2 font-semibold">
+                        Duration
+                    </label>
 
-                    <select name="duration">
+                    <select
+                        name="duration"
+                        class="w-full rounded-xl bg-slate-900 border border-slate-700 p-3">
 
-                        <option>15 sec</option>
-
-                        <option selected>30 sec</option>
-
-                        <option>60 sec</option>
+                        <option>30 seconds</option>
+                        <option>45 seconds</option>
+                        <option>60 seconds</option>
 
                     </select>
 
@@ -71,15 +79,16 @@
 
                 <div>
 
-                    <label>Language</label>
+                    <label class="block mb-2 font-semibold">
+                        Language
+                    </label>
 
-                    <select name="language">
+                    <select
+                        name="language"
+                        class="w-full rounded-xl bg-slate-900 border border-slate-700 p-3">
 
                         <option>English</option>
-
                         <option>Hindi</option>
-
-                        <option>Hinglish</option>
 
                     </select>
 
@@ -87,17 +96,13 @@
 
             </div>
 
-            <button id="generateBtn" type="submit">
+            <button
+                type="submit"
+                class="w-full gradient text-white text-xl font-bold py-4 rounded-xl hover:scale-105 transition duration-300">
 
-                ✨ Generate AI Script
+                🚀 Generate Script
 
             </button>
-
-            <p id="loading" style="display:none">
-
-                🤖 AI is generating your script...
-
-            </p>
 
         </form>
 
@@ -105,7 +110,4 @@
 
 </div>
 
-<script src="/static/js/app.js"></script>
-
-</body>
-</html>
+{% endblock %}
